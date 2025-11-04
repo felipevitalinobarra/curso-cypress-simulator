@@ -19,7 +19,7 @@ describe("Cypress Simulator", () => {
       .and("be.visible")
   })
 
-  it("it shows an error when entering and running an invalid Cypress command (e.g., cy.run())", () => {
+  it("shows an error when entering and running an invalid Cypress command (e.g., cy.run())", () => {
     cy.get("textarea[placeholder='Write your Cypress code here...']")
       .type("cy.run()")
     cy.contains("button", "Run").click()
