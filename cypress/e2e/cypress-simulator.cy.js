@@ -30,7 +30,7 @@ describe("Cypress Simulator", () => {
       .and("be.visible")
   })
 
-  it("shows a warning when entering and running a not-implemented Cypress command (e.g., cy.contains('Login'))", () =>{
+  it("shows a warning when entering and running a not-implemented Cypress command (e.g., cy.contains('Login'))", () => {
     cy.get("textarea[placeholder='Write your Cypress code here...']")
       .type("cy.contains('Login')")
     cy.contains("button", "Run").click()
@@ -104,8 +104,29 @@ describe("Cypress Simulator", () => {
     cy.contains("button", "Logout").should("not.be.visible")
   })
 
-  it("running... state", () => {
+  it("shows the running state before showing the final result", () => {
+    cy.get("textarea[placeholder='Write your Cypress code here...']")
+      .type("cy.get('button')")
+    cy.contains("button", "Run").click()
 
+    cy.contains("button", "Running...").should("be.visible")
+    cy.contains("#outputArea", "Running... Please wait.").should("be.visible")
+
+    cy.contains(
+      "button",
+      "Running...",
+      { timeout: 6000 }
+    ).should("not.exist")
+    cy.contains("button", "Run").should("be.visible")
+    cy.contains(
+      "#outputArea",
+      "Running... Please wait.",
+      { timeout: 6000 }
+    ).should("not.exist")
+    cy.get("#outputArea")
+      .should("contain", "Success:")
+      .and("contain", "cy.get('button') // Got element by selector 'button'")
+      .and("be.visible")
   })
 
   it("accept cookies", () => {
@@ -133,14 +154,14 @@ describe("Cypress Simulator", () => {
   })
 
   it("disabled run button on logout and login", () => {
-    
+
   })
 
   it("reset output on logout and login", () => {
-    
+
   })
 
   it("no cookies banner on the login page", () => {
-    
+
   })
 })
