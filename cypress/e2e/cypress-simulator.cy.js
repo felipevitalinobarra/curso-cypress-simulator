@@ -129,14 +129,6 @@ describe("Cypress Simulator", () => {
       .and("be.visible")
   })
 
-  it("captcha button states", () => {
-
-  })
-
-  it("captcha error", () => {
-
-  })
-
   it("run button - enabled/disabled state", () => {
 
   })
@@ -186,5 +178,35 @@ describe("Cypress Simulator - Cookie consent", () => {
     cy.window()
       .its("localStorage.cookieConsent")
       .should("be.equal", "declined")
+  })
+})
+
+describe("Cypress Simulator - Captcha", () => {
+  beforeEach(() => {
+    cy.visit("./src/index.html")
+    cy.contains("button", "Login").click()
+  })
+
+  it("disables the captcha verify button when no answer is provided or it's cleared", () => {
+    cy.get("#verifyCaptcha").should("be.disabled")
+
+    cy.get("input[placeholder='Enter your answer']").type("1")
+
+    cy.get("#verifyCaptcha").should("be.enabled")
+
+    cy.get("input[placeholder='Enter your answer']").clear()
+
+    cy.get("#verifyCaptcha").should("be.disabled")
+  })
+
+  it("shows an error on a wrong captcha answer and goes back to its initial state", () => {
+    cy.get("input[placeholder='Enter your answer']").type("1000")
+    cy.get("#verifyCaptcha").click()
+
+    cy.contains(".error", "Incorrect answer, please try again.")
+      .should("be.visible")
+    cy.get("input[placeholder='Enter your answer']")
+      .should("have.value", "")
+    cy.get("#verifyCaptcha").should("be.disabled")
   })
 })
