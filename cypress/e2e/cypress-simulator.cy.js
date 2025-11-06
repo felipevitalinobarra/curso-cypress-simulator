@@ -68,7 +68,7 @@ describe("Cypress Simulator", () => {
       .and("be.visible")
   })
 
-  it.only("maximizes and minimizes a simulation result", () => {
+  it("maximizes and minimizes a simulation result", () => {
     cy.get("textarea[placeholder='Write your Cypress code here...']")
       .type("cy.log('Yay!')")
     cy.contains("button", "Run").click()
@@ -86,12 +86,22 @@ describe("Cypress Simulator", () => {
     cy.get("#expandIcon").should("be.visible")
   })
 
-  it("logout", () => {
+  it("logs out successfully", () => {
+    cy.get("#sandwich-menu").click()
+    cy.contains("button", "Logout").click()
 
+    cy.contains("button", "Login").should("be.visible")
+    cy.get("#sandwich-menu").should("not.be.visible")
   })
 
-  it("show and hide logout button", () => {
+  it("shows and hides the logout button", () => {
+    cy.get("#sandwich-menu").click()
 
+    cy.contains("button", "Logout").should("be.visible")
+
+    cy.get("#sandwich-menu").click()
+
+    cy.contains("button", "Logout").should("not.be.visible")
   })
 
   it("running... state", () => {
