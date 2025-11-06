@@ -129,14 +129,6 @@ describe("Cypress Simulator", () => {
       .and("be.visible")
   })
 
-  it("accept cookies", () => {
-
-  })
-
-  it("decline cookies", () => {
-
-  })
-
   it("captcha button states", () => {
 
   })
@@ -163,5 +155,36 @@ describe("Cypress Simulator", () => {
 
   it("no cookies banner on the login page", () => {
 
+  })
+})
+
+describe("Cypress Simulator - Cookie consent", () => {
+  beforeEach(() => {
+    cy.visit("./src/index.html?skipCaptcha=true")
+    cy.contains("button", "Login").click()
+  })
+
+  it("consents on the cookies usage", () => {
+    cy.get("#cookieConsent")
+      .as("cookieConsentBanner")
+      .find("button:contains('Accept')")
+      .click()
+
+    cy.get("@cookieConsentBanner").should("not.be.visible")
+    cy.window()
+      .its("localStorage.cookieConsent")
+      .should("be.equal", "accepted")
+  })
+
+  it("declines on the cookies usage", () => {
+    cy.get("#cookieConsent")
+      .as("cookieConsentBanner")
+      .find("button:contains('Decline')")
+      .click()
+
+    cy.get("@cookieConsentBanner").should("not.be.visible")
+    cy.window()
+      .its("localStorage.cookieConsent")
+      .should("be.equal", "declined")
   })
 })
