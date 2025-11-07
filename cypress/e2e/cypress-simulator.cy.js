@@ -143,16 +143,44 @@ describe("Cypress Simulator", () => {
     cy.contains("button", "Run").should("be.disabled")
   })
 
-  it("reset textarea on logout and login", () => {
+  it("clears the code input when logging off then logging in again", () => {
+    cy.get("textarea[placeholder='Write your Cypress code here...']")
+      .type("cy.log('Yay!')")
+    
+    cy.get("#sandwich-menu").click()
+    cy.contains("button", "Logout").click()
+    cy.contains("button", "Login").click()
 
+    cy.get("textarea[placeholder='Write your Cypress code here...']")
+      .should("have.value", "")
   })
 
-  it("disabled run button on logout and login", () => {
+  it("disables the run button when logging off then logging in again", () => {
+    cy.get("textarea[placeholder='Write your Cypress code here...']")
+      .type("cy.log('Yay!')")
 
+    cy.get("#sandwich-menu").click()
+    cy.contains("button", "Logout").click()
+    cy.contains("button", "Login").click()
+
+    cy.contains("button", "Run").should("be.disabled")
   })
 
-  it("reset output on logout and login", () => {
+  it("clears the code output when logging off then logging in again", () => {
+    cy.get("textarea[placeholder='Write your Cypress code here...']")
+      .type("cy.log('Yay!')")
+    cy.contains("button", "Run").click()
 
+    cy.get("#outputArea", { timeout: 6000 })
+      .should("contain", "Success:")
+      .and("contain", "cy.log('Yay!') // Logged message 'Yay!'")
+      .and("be.visible")
+    
+    cy.get("#sandwich-menu").click()
+    cy.contains("button", "Logout").click()
+    cy.contains("button", "Login").click()
+
+    cy.get("#outputArea").should("have.text", "")
   })
 
   it("no cookies banner on the login page", () => {
