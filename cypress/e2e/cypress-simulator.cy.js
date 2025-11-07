@@ -183,8 +183,13 @@ describe("Cypress Simulator", () => {
     cy.get("#outputArea").should("have.text", "")
   })
 
-  it("no cookies banner on the login page", () => {
+  it("doesn't show the cookie consent banner on the login page", () => {
+    cy.clearAllLocalStorage()
 
+    cy.reload()
+
+    cy.contains("button", "Login").should("be.visible")
+    cy.get("#cookieConsent").should("not.be.visible")
   })
 })
 
