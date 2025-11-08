@@ -10,9 +10,7 @@ describe("Cypress Simulator - A11y Checks", () => {
     })
 
     it("successfully simulates a Cypress command (e.g., cy.log('Yay!'))", () => {
-        cy.get("textarea[placeholder='Write your Cypress code here...']")
-            .type("cy.log('Yay!')")
-        cy.contains("button", "Run").click()
+        cy.run("cy.log('Yay!')")
 
         cy.get("#outputArea", { timeout: 6000 })
             .should("contain", "Success:")
@@ -22,9 +20,7 @@ describe("Cypress Simulator - A11y Checks", () => {
     })
 
     it("shows an error when entering and running an invalid Cypress command (e.g., cy.run())", () => {
-        cy.get("textarea[placeholder='Write your Cypress code here...']")
-            .type("cy.run()")
-        cy.contains("button", "Run").click()
+        cy.run("cy.run()")
 
         cy.get("#outputArea", { timeout: 6000 })
             .should("contain", "Error:")
@@ -34,9 +30,7 @@ describe("Cypress Simulator - A11y Checks", () => {
     })
 
     it("shows a warning when entering and running a not-implemented Cypress command (e.g., cy.contains('Login'))", () => {
-        cy.get("textarea[placeholder='Write your Cypress code here...']")
-            .type("cy.contains('Login')")
-        cy.contains("button", "Run").click()
+        cy.run("cy.contains('Login')")
 
         cy.get("#outputArea", { timeout: 6000 })
             .should("contain", "Warning:")
@@ -46,9 +40,7 @@ describe("Cypress Simulator - A11y Checks", () => {
     })
 
     it("asks for help and gets common Cypress commands and examples with a link to the docs", () => {
-        cy.get("textarea[placeholder='Write your Cypress code here...']")
-            .type("help")
-        cy.contains("button", "Run").click()
+        cy.run("help")
 
         cy.get("#outputArea", { timeout: 6000 })
             .should("contain", "Common Cypress commands and examples:")
@@ -63,10 +55,8 @@ describe("Cypress Simulator - A11y Checks", () => {
     })
 
     it("maximizes and minimizes a simulation result", () => {
-        cy.get("textarea[placeholder='Write your Cypress code here...']")
-            .type("cy.log('Yay!')")
-        cy.contains("button", "Run").click()
-
+        cy.run("cy.log('Yay!')")
+        
         cy.get(".expand-collapse").click()
 
         cy.get("#outputArea", { timeout: 6000 })
@@ -105,9 +95,7 @@ describe("Cypress Simulator - A11y Checks", () => {
     })
 
     it("shows the running state before showing the final result", () => {
-        cy.get("textarea[placeholder='Write your Cypress code here...']")
-            .type("cy.get('button')")
-        cy.contains("button", "Run").click()
+        cy.run("cy.get('button')")
 
         cy.contains("button", "Running...").should("be.visible")
         cy.contains("#outputArea", "Running... Please wait.").should("be.visible")

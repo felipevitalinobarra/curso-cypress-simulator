@@ -9,9 +9,7 @@ describe("Cypress Simulator", () => {
   })
 
   it("shows an error when entering and running a valid Cypress command without parentheses (e.g., cy.visit)", () => {
-    cy.get("textarea[placeholder='Write your Cypress code here...']")
-      .type("cy.visit")
-    cy.contains("button", "Run").click()
+    cy.run("cy.visit")
 
     cy.get("#outputArea", { timeout: 6000 })
       .should("contain", "Error:")
@@ -57,9 +55,7 @@ describe("Cypress Simulator", () => {
   })
 
   it("clears the code output when logging off then logging in again", () => {
-    cy.get("textarea[placeholder='Write your Cypress code here...']")
-      .type("cy.log('Yay!')")
-    cy.contains("button", "Run").click()
+    cy.run("cy.log('Yay!')")
 
     cy.get("#outputArea", { timeout: 6000 })
       .should("contain", "Success:")
