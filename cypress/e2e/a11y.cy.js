@@ -58,7 +58,7 @@ describe("Cypress Simulator - A11y Checks", () => {
             .and("be.visible")
     })
 
-    it("maximizes and minimizes a simulation result", () => {
+    it.only("maximizes and minimizes a simulation result", () => {
         cy.get("textarea[placeholder='Write your Cypress code here...']")
             .type("cy.log('Yay!')")
         cy.contains("button", "Run").click()
@@ -70,6 +70,8 @@ describe("Cypress Simulator - A11y Checks", () => {
             .and("contain", "cy.log('Yay!') // Logged message 'Yay!'")
             .and("be.visible")
         cy.get("#collapseIcon").should("be.visible")
+
+        cy.checkA11y()
 
         cy.get(".expand-collapse").click()
 
