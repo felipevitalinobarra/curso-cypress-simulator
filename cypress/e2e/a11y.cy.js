@@ -58,7 +58,7 @@ describe("Cypress Simulator - A11y Checks", () => {
             .and("be.visible")
     })
 
-    it.only("maximizes and minimizes a simulation result", () => {
+    it("maximizes and minimizes a simulation result", () => {
         cy.get("textarea[placeholder='Write your Cypress code here...']")
             .type("cy.log('Yay!')")
         cy.contains("button", "Run").click()
@@ -84,12 +84,16 @@ describe("Cypress Simulator - A11y Checks", () => {
 
         cy.contains("button", "Login").should("be.visible")
         cy.get("#sandwich-menu").should("not.be.visible")
+
+        cy.checkA11y()
     })
 
     it("shows and hides the logout button", () => {
         cy.get("#sandwich-menu").click()
 
         cy.contains("button", "Logout").should("be.visible")
+
+        cy.checkA11y()
 
         cy.get("#sandwich-menu").click()
 
@@ -103,6 +107,8 @@ describe("Cypress Simulator - A11y Checks", () => {
 
         cy.contains("button", "Running...").should("be.visible")
         cy.contains("#outputArea", "Running... Please wait.").should("be.visible")
+
+        cy.checkA11y()
 
         cy.contains(
             "button",
@@ -126,11 +132,17 @@ describe("Cypress Simulator - Cookie consent", () => {
     beforeEach(() => {
         cy.visit("./src/index.html?skipCaptcha=true")
         cy.contains("button", "Login").click()
+        cy.injectAxe()
     })
 
     it("consents on the cookies usage", () => {
         cy.get("#cookieConsent")
             .as("cookieConsentBanner")
+            .should("be.visible")
+
+        cy.checkA11y()
+
+        cy.get("@cookieConsentBanner")
             .find("button:contains('Accept')")
             .click()
 
